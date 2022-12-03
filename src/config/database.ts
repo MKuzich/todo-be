@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { ConnectionOptions, connect } from 'mongoose';
+import { ConnectionOptions, connect } from "mongoose";
 
 const connectDB = async () => {
   try {
@@ -7,12 +7,12 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     };
     await connect(process.env.MONGO_URI, options);
-    console.log('MongoDB Connected...');
+    console.log("MongoDB Connected...");
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
     // Exit process with failure
     process.exit(1);
   }
