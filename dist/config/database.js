@@ -39,18 +39,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-console */
 var mongoose_1 = require("mongoose");
 var connectDB = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var options, err_1;
+    var err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                options = {
-                    useNewUrlParser: true,
-                    useCreateIndex: true,
-                    useFindAndModify: false,
-                    useUnifiedTopology: true,
-                };
-                return [4 /*yield*/, (0, mongoose_1.connect)(process.env.MONGO_URI, options)];
+                return [4 /*yield*/, (0, mongoose_1.connect)(process.env.MONGO_URI)];
             case 1:
                 _a.sent();
                 console.log("MongoDB Connected...");
