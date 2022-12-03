@@ -7,7 +7,7 @@
   "scripts": {
     "tsc": "tsc",
     "watch-tsc": "tsc -w",
-    "deploy": "node dist/server.js",
+    "deploy": "node ./dist/server.js",
     "watch-deploy": "nodemon dist/server.js",
     "server": "concurrently \"npm run watch-tsc\" \"npm run watch-deploy\"",
     "start": "yarn build && yarn deploy",
