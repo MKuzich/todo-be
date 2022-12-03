@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -79,7 +79,7 @@ var UserService = /** @class */ (function () {
                     case 1:
                         checkUser = _a.sent();
                         if (checkUser) {
-                            throw errors_1.createError(409, 'Email already in use.');
+                            throw (0, errors_1.createError)(409, 'Email already in use.');
                         }
                         return [4 /*yield*/, bcryptjs_1.default.hash(password, 10)];
                     case 2:
@@ -92,7 +92,7 @@ var UserService = /** @class */ (function () {
                     case 4:
                         updatedUser = _a.sent();
                         if (!updatedUser) {
-                            throw errors_1.createError(500, 'Unknown error in creating new user');
+                            throw (0, errors_1.createError)(500, 'Unknown error in creating new user');
                         }
                         return [2 /*return*/, updatedUser.token];
                 }
@@ -110,13 +110,13 @@ var UserService = /** @class */ (function () {
                     case 1:
                         user = _a.sent();
                         if (!user) {
-                            throw errors_1.createError(401, 'Email or password is wrong.');
+                            throw (0, errors_1.createError)(401, 'Email or password is wrong.');
                         }
                         return [4 /*yield*/, bcryptjs_1.default.compare(password, user.password)];
                     case 2:
                         isValid = _a.sent();
                         if (!isValid) {
-                            throw errors_1.createError(401, 'Email or password is wrong');
+                            throw (0, errors_1.createError)(401, 'Email or password is wrong');
                         }
                         token = jsonwebtoken_1.default.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
                         return [4 /*yield*/, User_1.default.findByIdAndUpdate(user._id, { token: token })];
@@ -150,13 +150,13 @@ var UserService = /** @class */ (function () {
                     case 1:
                         user = _a.sent();
                         if (!user || user.email !== email) {
-                            throw errors_1.createError(401, 'Email or password is wrong.');
+                            throw (0, errors_1.createError)(401, 'Email or password is wrong.');
                         }
                         return [4 /*yield*/, bcryptjs_1.default.compare(oldPassword, user.password)];
                     case 2:
                         isValid = _a.sent();
                         if (!isValid) {
-                            throw errors_1.createError(401, 'Email or password is wrong');
+                            throw (0, errors_1.createError)(401, 'Email or password is wrong');
                         }
                         return [4 /*yield*/, bcryptjs_1.default.hash(newPassword, 10)];
                     case 3:

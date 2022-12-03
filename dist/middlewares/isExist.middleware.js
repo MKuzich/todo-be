@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isExist = void 0;
 var http_status_codes_1 = require("http-status-codes");
-exports.isExist = function (model) {
+var isExist = function (model) {
     return function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
         var id, exist, error_1;
         return __generator(this, function (_a) {
@@ -71,4 +71,5 @@ exports.isExist = function (model) {
         });
     }); };
 };
+exports.isExist = isExist;
 //# sourceMappingURL=isExist.middleware.js.map

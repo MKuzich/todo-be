@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -48,16 +48,16 @@ var connectDB = function () { return __awaiter(void 0, void 0, void 0, function 
                     useNewUrlParser: true,
                     useCreateIndex: true,
                     useFindAndModify: false,
-                    useUnifiedTopology: true
+                    useUnifiedTopology: true,
                 };
-                return [4 /*yield*/, mongoose_1.connect(process.env.MONGO_URI, options)];
+                return [4 /*yield*/, (0, mongoose_1.connect)(process.env.MONGO_URI, options)];
             case 1:
                 _a.sent();
-                console.log('MongoDB Connected...');
+                console.log("MongoDB Connected...");
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
-                console.error(err_1.message);
+                console.error(err_1);
                 // Exit process with failure
                 process.exit(1);
                 return [3 /*break*/, 3];

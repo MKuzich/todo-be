@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -49,11 +49,11 @@ var axios_1 = __importDefault(require("axios"));
 var routes_1 = __importDefault(require("./routes"));
 var database_1 = __importDefault(require("./config/database"));
 var handleError_middleware_1 = require("./middlewares/handleError.middleware");
-var app = express_1.default();
-app.use(cors_1.default());
+var app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 var router = new routes_1.default(app);
 // Connect to MongoDB
-database_1.default();
+(0, database_1.default)();
 // Express configuration
 app.set('port', process.env.PORT || 4200);
 app.use(body_parser_1.default.json());
@@ -61,7 +61,7 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 router.init();
 app.use(handleError_middleware_1.handleError);
 // TODO: Move that to model GraphQL
-var schema = graphql_1.buildSchema("\n  type Query {\n    todos: String\n  }\n");
+var schema = (0, graphql_1.buildSchema)("\n  type Query {\n    todos: String\n  }\n");
 // TODO: Create graphQL controller
 var rootValue = {
     todos: function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -77,13 +77,13 @@ var rootValue = {
     }); }
 };
 // TODO: Move that to router init function ONLY AFTER MAIN PART OF APP
-app.use('/graphql', express_graphql_1.graphqlHTTP({
+app.use('/graphql', (0, express_graphql_1.graphqlHTTP)({
     schema: schema,
     rootValue: rootValue,
     graphiql: true
 }));
 var port = app.get('port');
 // eslint-disable-next-line no-console
-var server = app.listen(port, function () { return console.log("Server started on port " + port); });
+var server = app.listen(port, function () { return console.log("Server started on port ".concat(port)); });
 exports.default = server;
 //# sourceMappingURL=server.js.map

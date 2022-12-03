@@ -39,6 +39,6 @@ var todoSchema = new mongoose_1.Schema({
         ref: 'User'
     }
 });
-var Todo = mongoose_1.model('Todo', todoSchema);
+var Todo = (0, mongoose_1.model)('Todo', todoSchema);
 exports.default = Todo;
 //# sourceMappingURL=Todo.js.map

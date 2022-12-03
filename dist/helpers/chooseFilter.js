@@ -12,8 +12,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chooseFilter = void 0;
-exports.chooseFilter = function (filter) {
+var chooseFilter = function (filter) {
     var filterObj = __assign(__assign(__assign({}, (filter === 'private' && { public: false })), (filter === 'public' && { public: true })), (filter === 'complete' && { complited: true }));
     return filterObj;
 };
+exports.chooseFilter = chooseFilter;
 //# sourceMappingURL=chooseFilter.js.map

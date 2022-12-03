@@ -12,8 +12,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createError = void 0;
-exports.createError = function (code, message) {
+var createError = function (code, message) {
     var error = __assign(__assign({}, new Error()), { code: code, status: code.toString(), message: message });
     return error;
 };
+exports.createError = createError;
 //# sourceMappingURL=errors.js.map
