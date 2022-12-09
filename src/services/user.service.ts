@@ -1,8 +1,8 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import User from '../models/User';
-import { IPasswords, IUserLogin } from '../types/user.type';
-import { createError } from '../helpers/errors';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User";
+import { IPasswords, IUserLogin } from "../types/user.type";
+import { createError } from "../helpers/errors";
 
 interface UserPayload {
   id: string;
@@ -15,28 +15,36 @@ export default class UserService {
     const { id } = jwt.verify(token, JWT_SECRET) as UserPayload;
 
     if (!id) {
-      return null;
+      throw createError(401, "Not authorized");
     }
     const user = await User.findById(id);
-    if (user) {
-      return user.token === token ? user : null;
+    if (!user || !user.token) {
+      throw createError(401, "Invalid token");
     }
-    return null;
+    if (user.token !== token) {
+      throw createError(401, "Not authorized");
+    }
+
+    return user;
   }
 
   async signUp(data: IUserLogin) {
     const { email, password } = data;
     const checkUser = await User.findOne({ email });
     if (checkUser) {
-      throw createError(409, 'Email already in use.');
+      throw createError(409, "Email already in use.");
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ email, password: hashedPassword });
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "10h" });
 
-    const updatedUser = await User.findByIdAndUpdate(user._id, { token }, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(
+      user._id,
+      { token },
+      { new: true }
+    );
     if (!updatedUser) {
-      throw createError(500, 'Unknown error in creating new user');
+      throw createError(500, "Unknown error in creating new user");
     }
     return updatedUser.token;
   }
@@ -45,13 +53,13 @@ export default class UserService {
     const { email, password } = data;
     const user = await User.findOne({ email });
     if (!user) {
-      throw createError(401, 'Email or password is wrong.');
+      throw createError(401, "Email or password is wrong.");
     }
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      throw createError(401, 'Email or password is wrong');
+      throw createError(401, "Email or password is wrong");
     }
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "10h" });
     await User.findByIdAndUpdate(user._id, { token });
     return token;
   }
@@ -65,11 +73,11 @@ export default class UserService {
     const { oldPassword, newPassword, email } = data;
     const user = await User.findById(id);
     if (!user || user.email !== email) {
-      throw createError(401, 'Email or password is wrong.');
+      throw createError(401, "Email or password is wrong.");
     }
     const isValid = await bcrypt.compare(oldPassword, user.password);
     if (!isValid) {
-      throw createError(401, 'Email or password is wrong');
+      throw createError(401, "Email or password is wrong");
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await User.findByIdAndUpdate(id, { password: hashedPassword });
