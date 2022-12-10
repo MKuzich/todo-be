@@ -44,9 +44,9 @@ export default class TodoService {
 
   async change(id: string, data: ITodo, userId: string) {
     const todoCheck = await Todo.findById(id);
-    console.log("user id ->", userId);
-    console.log("in todo id ->", todoCheck?.owner.toString());
-    if (userId !== todoCheck?.owner.toString()) {
+    console.log("user id ->", userId.toString());
+    console.log("in todo id ->", todoCheck?.owner);
+    if (userId.toString() !== todoCheck?.owner) {
       throw createError(401, "It's not your todo!");
     }
     const todo = await Todo.findByIdAndUpdate(id, data, { new: true });
