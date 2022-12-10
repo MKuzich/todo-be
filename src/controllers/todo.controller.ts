@@ -9,7 +9,6 @@ export class TodoController {
     req: Request<any, any, any, IQueryParams>
   ): Promise<{ todos: ITodo[]; total: number } | null> {
     const id = req?.user?._id ?? "";
-    console.log("user id --->", id);
     const {
       search = "",
       filter,
@@ -44,9 +43,10 @@ export class TodoController {
   async changeTodo(
     req: Request<{ id: string }, any, ITodo>
   ): Promise<ITodo | null> {
+    const usedId = req?.user?._id ?? "";
     const { id } = req.params;
     const data: ITodo = req.body;
-    const todo = await this.todoService.change(id, data);
+    const todo = await this.todoService.change(id, data, usedId);
     return todo;
   }
 

@@ -1,6 +1,7 @@
 import Todo from "../models/Todo";
 import { ITodo, ITodoCreate } from "../types/todos.type";
 import { chooseFilter } from "../helpers/chooseFilter";
+import { createError } from "../helpers/errors";
 
 export default class TodoService {
   async findAll(
@@ -41,7 +42,11 @@ export default class TodoService {
     return todo;
   }
 
-  async change(id: string, data: ITodo) {
+  async change(id: string, data: ITodo, userId: string) {
+    const todoCheck = await Todo.findById(id);
+    if (userId !== todoCheck?.owner) {
+      throw createError(401, "It's not your todo!");
+    }
     const todo = await Todo.findByIdAndUpdate(id, data, { new: true });
     return todo;
   }
