@@ -1,10 +1,10 @@
-import Todo from '../models/Todo';
-import { ITodo, ITodoCreate } from '../types/todos.type';
-import { chooseFilter } from '../helpers/chooseFilter';
+import Todo from "../models/Todo";
+import { ITodo, ITodoCreate } from "../types/todos.type";
+import { chooseFilter } from "../helpers/chooseFilter";
 
 export default class TodoService {
   async findAll(
-    id: string | undefined,
+    id: string,
     search: string,
     filter: string,
     skip: number,
@@ -13,18 +13,18 @@ export default class TodoService {
     const filterObj = chooseFilter(filter);
     const todos = await Todo.find({
       $or: [
-        { public: true, title: { $regex: search, $options: 'i' } },
-        { public: false, title: { $regex: search, $options: 'i' }, owner: id }
-      ]
+        { public: true, title: { $regex: search, $options: "i" } },
+        { public: false, title: { $regex: search, $options: "i" }, owner: id },
+      ],
     })
       .where(filterObj)
       .skip(skip)
       .limit(limit);
     const total = await Todo.find({
       $or: [
-        { public: true, title: { $regex: search, $options: 'i' } },
-        { public: false, title: { $regex: search, $options: 'i' }, owner: id }
-      ]
+        { public: true, title: { $regex: search, $options: "i" } },
+        { public: false, title: { $regex: search, $options: "i" }, owner: id },
+      ],
     })
       .where(filterObj)
       .countDocuments();
