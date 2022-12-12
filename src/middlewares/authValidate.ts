@@ -6,7 +6,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization = "" } = req.headers;
   const [tokenType, token] = authorization.split(" ");
 
-  if (tokenType !== "Bearer" || !token) {
+  if (authorization === "" || tokenType !== "Bearer" || !token) {
     next(createError(401, "Not authorized"));
   }
   const user = await UserService.authenticate(token);
