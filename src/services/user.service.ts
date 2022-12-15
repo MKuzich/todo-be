@@ -12,20 +12,24 @@ const { JWT_SECRET } = process.env;
 
 export default class UserService {
   static async authenticate(token: string) {
-    const { id } = jwt.verify(token, JWT_SECRET) as UserPayload;
+    try {
+      const { id } = jwt.verify(token, JWT_SECRET) as UserPayload;
 
-    if (!id) {
-      throw createError(401, "Not authorized");
-    }
-    const user = await User.findById(id);
-    if (!user || !user.token) {
-      throw createError(401, "Invalid token");
-    }
-    if (user.token !== token) {
-      throw createError(401, "Not authorized");
-    }
+      if (!id) {
+        throw createError(401, "Not authorized");
+      }
+      const user = await User.findById(id);
+      if (!user || !user.token) {
+        throw createError(401, "Invalid token");
+      }
+      if (user.token !== token) {
+        throw createError(401, "Bad credential");
+      }
 
-    return user;
+      return user;
+    } catch (e) {
+      return null;
+    }
   }
 
   async signUp(data: IUserLogin) {
@@ -36,7 +40,7 @@ export default class UserService {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ email, password: hashedPassword });
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "10h" });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
 
     const updatedUser = await User.findByIdAndUpdate(
       user._id,
@@ -59,7 +63,7 @@ export default class UserService {
     if (!isValid) {
       throw createError(401, "Email or password is wrong");
     }
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "10h" });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
     await User.findByIdAndUpdate(user._id, { token });
     return token;
   }
